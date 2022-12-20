@@ -3,21 +3,21 @@ cmake_minimum_required(VERSION 3.0)
 
 # new feature to Cmake Version > 2.8.12
 # Mac ONLY. Define Relative Path on Mac OS
-if(NOT DEFINED CMAKE_MACOSX_RPATH)
-  set(CMAKE_MACOSX_RPATH 0)
-endif()
+if (NOT DEFINED CMAKE_MACOSX_RPATH)
+    set(CMAKE_MACOSX_RPATH 0)
+endif ()
 
 # Set the version number for the library
-set (GTSAM_VERSION_MAJOR 4)
-set (GTSAM_VERSION_MINOR 1)
-set (GTSAM_VERSION_PATCH 1)
-math (EXPR GTSAM_VERSION_NUMERIC "10000 * ${GTSAM_VERSION_MAJOR} + 100 * ${GTSAM_VERSION_MINOR} + ${GTSAM_VERSION_PATCH}")
-set (GTSAM_VERSION_STRING "${GTSAM_VERSION_MAJOR}.${GTSAM_VERSION_MINOR}.${GTSAM_VERSION_PATCH}")
+set(GTSAM_VERSION_MAJOR 4)
+set(GTSAM_VERSION_MINOR 1)
+set(GTSAM_VERSION_PATCH 1)
+math(EXPR GTSAM_VERSION_NUMERIC "10000 * ${GTSAM_VERSION_MAJOR} + 100 * ${GTSAM_VERSION_MINOR} + ${GTSAM_VERSION_PATCH}")
+set(GTSAM_VERSION_STRING "${GTSAM_VERSION_MAJOR}.${GTSAM_VERSION_MINOR}.${GTSAM_VERSION_PATCH}")
 
-set (CMAKE_PROJECT_VERSION ${GTSAM_VERSION_STRING})
-set (CMAKE_PROJECT_VERSION_MAJOR ${GTSAM_VERSION_MAJOR})
-set (CMAKE_PROJECT_VERSION_MINOR ${GTSAM_VERSION_MINOR})
-set (CMAKE_PROJECT_VERSION_PATCH ${GTSAM_VERSION_PATCH})
+set(CMAKE_PROJECT_VERSION ${GTSAM_VERSION_STRING})
+set(CMAKE_PROJECT_VERSION_MAJOR ${GTSAM_VERSION_MAJOR})
+set(CMAKE_PROJECT_VERSION_MINOR ${GTSAM_VERSION_MINOR})
+set(CMAKE_PROJECT_VERSION_PATCH ${GTSAM_VERSION_PATCH})
 
 ###############################################################################
 # Gather information, perform checks, set defaults
@@ -34,9 +34,9 @@ include(GtsamTesting)
 include(GtsamPrinting)
 
 # guard against in-source builds
-if(${GTSAM_SOURCE_DIR} STREQUAL ${GTSAM_BINARY_DIR})
-  message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there. You may need to remove CMakeCache.txt. ")
-endif()
+if (${GTSAM_SOURCE_DIR} STREQUAL ${GTSAM_BINARY_DIR})
+    message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there. You may need to remove CMakeCache.txt. ")
+endif ()
 
 include(cmake/HandleGeneralOptions.cmake)   # CMake build options
 
@@ -78,28 +78,28 @@ add_subdirectory(timing)
 # Build gtsam_unstable
 if (GTSAM_BUILD_UNSTABLE)
     add_subdirectory(gtsam_unstable)
-endif()
+endif ()
 
 # This is the new wrapper
-if(GTSAM_BUILD_PYTHON OR GTSAM_INSTALL_MATLAB_TOOLBOX)
+if (GTSAM_BUILD_PYTHON OR GTSAM_INSTALL_MATLAB_TOOLBOX)
     # Need to set this for the wrap package so we don't use the default value.
     set(WRAP_PYTHON_VERSION ${GTSAM_PYTHON_VERSION}
-        CACHE STRING "The Python version to use for wrapping")
+            CACHE STRING "The Python version to use for wrapping")
     # Set the include directory for matlab.h
     set(GTWRAP_INCLUDE_NAME "wrap")
     add_subdirectory(wrap)
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/wrap/cmake")
-endif()
+endif ()
 
 # Python toolbox
-if(GTSAM_BUILD_PYTHON)
+if (GTSAM_BUILD_PYTHON)
     add_subdirectory(python)
-endif()
+endif ()
 
 # Matlab toolbox
-if(GTSAM_INSTALL_MATLAB_TOOLBOX)
+if (GTSAM_INSTALL_MATLAB_TOOLBOX)
     add_subdirectory(matlab)
-endif()
+endif ()
 
 # Install config and export files
 GtsamMakeConfigFile(GTSAM "${CMAKE_CURRENT_SOURCE_DIR}/gtsam_extra.cmake.in")
@@ -108,7 +108,7 @@ export(TARGETS ${GTSAM_EXPORTED_TARGETS} FILE GTSAM-exports.cmake)
 if (GTSAM_BUILD_UNSTABLE)
     GtsamMakeConfigFile(GTSAM_UNSTABLE "${CMAKE_CURRENT_SOURCE_DIR}/gtsam_extra.cmake.in")
     export(TARGETS ${GTSAM_UNSTABLE_EXPORTED_TARGETS} FILE GTSAM_UNSTABLE-exports.cmake)
-endif()
+endif ()
 
 # Check for doxygen availability - optional dependency
 find_package(Doxygen)
@@ -116,7 +116,7 @@ find_package(Doxygen)
 # Doxygen documentation - enabling options in subfolder
 if (DOXYGEN_FOUND)
     add_subdirectory(doc)
-endif()
+endif ()
 
 # CMake Tools
 add_subdirectory(cmake)
